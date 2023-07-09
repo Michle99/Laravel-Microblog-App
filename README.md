@@ -33,3 +33,6 @@ Clone the repository and run the app using:
 ```
 php artisan server
 ```
+
+## Screenshot
+![Screenshot](./public/chirper.png)
