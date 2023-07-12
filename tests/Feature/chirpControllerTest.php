@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Chirp;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class chirpControllerTest extends TestCase
 {
@@ -56,12 +57,32 @@ class chirpControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this
-        ->actingAs($user)
-        ->patch('/chirps/$payload', $payload);
+            ->actingAs($user)
+            ->patch('/chirps/$payload', $payload);
 
         $response
             ->assertSessionHasNoErrors();
 
         $user->refresh();
+    }
+
+    public function test_chirp_can_be_deleted(): void
+    {
+        $chirpAtrributes = Chirp::factory()->make()->getAttributes();
+    
+        $user = User::factory()->create();
+
+
+        $response = $this
+            ->actingAs($user)
+            ->delete('/chirps/$chirpAtrributes', $chirpAtrributes);
+        
+        $response
+            // ->assertNoContent();
+            ->assertSessionHasNoErrors();
+        
+        // $this->assertNull($user->fresh());
+        // $this->assertDatabaseMissing('chirps', $chirpAtrributes);
+        
     }
 }
