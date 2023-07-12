@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Chirp;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class chirpControllerTest extends TestCase
 {
@@ -75,14 +74,12 @@ class chirpControllerTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete('/chirps/$chirpAtrributes', $chirpAtrributes);
+            ->delete('/chirps/$chirpAtrributes');
         
         $response
-            // ->assertNoContent();
             ->assertSessionHasNoErrors();
-        
-        // $this->assertNull($user->fresh());
-        // $this->assertDatabaseMissing('chirps', $chirpAtrributes);
+
+        $this->assertDatabaseMissing('chirps', $chirpAtrributes);
         
     }
 }
